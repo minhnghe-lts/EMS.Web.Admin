@@ -42,12 +42,21 @@ onBeforeMount(() => {
   loadTableData()
 })
 
-const onViewIconClicked = item => {
-  alert('Viewing')
+const selectedItem = ref({})
+const dialogVisible = ref(false)
+
+const onViewIconClicked = async item => {
+  dialogVisible.value = true
+
+  const contractTypeID = item.value
+  const res = await ContractTypeService.getContractType(contractTypeID)
+
+  selectedItem.value = res
+  console.log(selectedItem.value.name)
 }
 
 const onEditIconClicked = item => {
-  alert('Editting')
+  alert('Editing')
 }
 
 const onDeleteIconClicked = item => {
@@ -62,7 +71,18 @@ const onPageNoChanged = async () => {
 <template>
   <div>
     <VCard>
-      <VCardTitle>Loại Hợp đồng</VCardTitle>
+      <VRow>
+        <VCol>
+          <VCardTitle>Loại Hợp đồng</VCardTitle>
+        </VCol>
+        <VCol class="d-flex justify-end ma-3">
+          <VTextField
+            label="Tìm kiếm"
+            class="mr-5"
+          />
+          <VBtn>+</VBtn>
+        </VCol>
+      </VRow>
       <VDataTable
         :headers="headers"
         :items="tableDataSource"
@@ -118,6 +138,34 @@ const onPageNoChanged = async () => {
           </div>
         </template>
       </VDataTable>
+      <VDialog
+        v-model="dialogVisible"
+        width="50%"
+      >
+        <VCard class="pa-5">
+          <VRow>
+            <VCol>
+              <VCardTitle>Xem thông tin chi tiết</VCardTitle>
+            </VCol>
+          </VRow>
+          <VRow>
+            <VCol
+              cols="2"
+              class="d-flex"
+            >
+              <VLabel>Tên hợp đồng</VLabel>
+            </VCol>
+            <VCol cols="7">
+              <VTextField v-model:value="selectedItem.name" />
+            </VCol>
+          </VRow>
+          <VRow class="justify-end">
+            <VBtn @click="dialogVisible = !dialogVisible">
+              Đóng
+            </VBtn>
+          </VRow>
+        </VCard>
+      </VDialog>
     </VCard>
   </div>
 </template>

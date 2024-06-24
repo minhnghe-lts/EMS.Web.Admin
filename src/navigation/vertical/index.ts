@@ -12,8 +12,31 @@ export default [
     icon: { icon: 'tabler-file' },
   },
   {
+    title: 'Hành chính',
+
+    // to: { name: 'administrations' },
+    icon: { icon: 'tabler-file' },
+    children: [
+      {
+        title: 'Đãi ngộ',
+        to: {
+          path: '/administrations/allowance',
+        },
+      },
+    ],
+  },
+  {
     title: 'Cài đặt chung',
-    to: { name: 'settings' },
+
+    // to: { name: 'settings' },
     icon: { icon: 'mdi-cog-outline' },
+    children: [
+      {
+        title: 'Loại hợp đồng',
+        to: {
+          path: '/settings/contractType',
+        },
+      },
+    ],
   },
 ] as VerticalNavItems
