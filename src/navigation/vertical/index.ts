@@ -27,6 +27,11 @@ export default [
   {
     title: 'Vị trí',
     to: { name: 'position' },
-    icon: { icon: 'mdi-clipboard-check-outline' }
+    icon: { icon: 'mdi-map-marker-outline' }
+  },
+  {
+    title: 'Cấp tổ chức',
+    to: { name: 'departmentLevel' },
+    icon: { icon: 'mdi-floor-plan' }
   }
 ] as VerticalNavItems
