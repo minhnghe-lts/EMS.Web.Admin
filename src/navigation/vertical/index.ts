@@ -13,7 +13,20 @@ export default [
   },
   {
     title: 'Cài đặt chung',
-    to: { name: 'settings' },
+    // to: { name: 'settings' },
     icon: { icon: 'mdi-cog-outline' },
+    children: [
+      {
+        title: 'Loại hợp đồng',
+        to: {
+          path: '/settings/contractType'
+        }
+      }
+    ]
   },
+  {
+    title: 'Vị trí',
+    to: { name: 'position' },
+    icon: { icon: 'mdi-clipboard-check-outline' }
+  }
 ] as VerticalNavItems
