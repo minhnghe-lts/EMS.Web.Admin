@@ -1,12 +1,32 @@
 <script setup lang="ts">
-import ContractTypeService from "@/services/contractType.service";
+import AllowanceService from "@/services/allowance.service";
 import { VDataTable } from "vuetify/labs/VDataTable";
-import ContractTypeDialog from "./ContractTypeDialog.vue";
+import AllowanceDialog from "./AllowanceDialog.vue";
 
 const headers = ref([
   {
-    title: "Loại hợp đồng",
+    title: "Tên phụ cấp",
     key: "name",
+    sortable: false,
+  },
+  {
+    title: "Mô tả",
+    key: "decription",
+    sortable: false,
+  },
+  {
+    title: "Số lượng",
+    key: "amount",
+    sortable: false,
+  },
+  {
+    title: "Ngày bắt đầu",
+    key: "fromDate",
+    sortable: false,
+  },
+  {
+    title: "Ngày kết thúc",
+    key: "toDate",
     sortable: false,
   },
   {
@@ -17,7 +37,6 @@ const headers = ref([
 ]);
 
 const tableDataSource = ref([]);
-const search = ref("");
 
 const pagination = ref({
   pageNo: 1,
@@ -33,7 +52,7 @@ const loadTableData = async () => {
     pageSize: pagination.value.pageSize,
   };
 
-  const res = await ContractTypeService.getPagedContractType(param);
+  const res = await AllowanceService.getPagedAllowance(param);
 
   tableDataSource.value = res.data;
   pagination.value.pageNo = res.pageNo;
@@ -45,10 +64,11 @@ onBeforeMount(() => {
 });
 
 const dialogRef = ref(null);
+const search = ref("");
 
 const onViewIconClicked = async (item: any) => {
   try {
-    const data = await ContractTypeService.getContractType(item.value);
+    const data = await AllowanceService.getAllowanceById(item.value);
 
     dialogRef.value.show("view", data);
   } catch (error) {
@@ -58,7 +78,7 @@ const onViewIconClicked = async (item: any) => {
 
 const onEditIconClicked = async (item) => {
   try {
-    const data = await ContractTypeService.getContractType(item.value);
+    const data = await AllowanceService.getAllowanceById(item.value);
 
     dialogRef.value.show("edit", data);
   } catch (error) {
@@ -68,7 +88,7 @@ const onEditIconClicked = async (item) => {
 
 const saveChanges = async (data: any) => {
   try {
-    await ContractTypeService.editContracType(data);
+    await AllowanceService.editAllowance(data);
     await loadTableData();
   } catch (error) {
     console.error("Error saving changes:", error);
@@ -77,9 +97,9 @@ const saveChanges = async (data: any) => {
 
 const onDeleteIconClicked = async (item) => {
   try {
-    const data = await ContractTypeService.getContractType(item.value);
+    const data = await AllowanceService.getAllowanceById(item.value);
 
-    dialogRef.value.show("delete", data);
+    dialogRef.value.show("delete", data.id);
   } catch (error) {
     console.error("Error saving changes:", error);
   }
@@ -87,7 +107,7 @@ const onDeleteIconClicked = async (item) => {
 
 const confirmDelete = async (data: any) => {
   try {
-    await ContractTypeService.deleteContracType(data);
+    await AllowanceService.deleteAllowance(data);
     await loadTableData();
   } catch (error) {
     console.error("Error saving changes:", error);
@@ -107,7 +127,7 @@ const onAddIconClicked = async () => {
 
 const confirmCreate = async (data: any) => {
   try {
-    await ContractTypeService.createContracType(data);
+    await AllowanceService.createAllowance(data);
     await loadTableData();
   } catch (error) {
     console.error("Error saving changes:", error);
@@ -124,13 +144,13 @@ const onPageNoChanged = async () => {
     <VCard>
       <VRow>
         <VCol>
-          <VCardTitle>Loại Hợp đồng</VCardTitle>
+          <VCardTitle>Phụ Cấp</VCardTitle>
         </VCol>
         <VCol class="d-flex justify-end ma-3">
           <VTextField
             v-model="search"
             density="compact"
-            label="Tìm kiếm"
+            label="Search"
             prepend-inner-icon="mdi-magnify"
             variant="solo-filled"
             flat
@@ -198,7 +218,7 @@ const onPageNoChanged = async () => {
         </template>
       </VDataTable>
     </VCard>
-    <ContractTypeDialog
+    <AllowanceDialog
       ref="dialogRef"
       @save-changes="saveChanges"
       @confirm-delete="confirmDelete"
