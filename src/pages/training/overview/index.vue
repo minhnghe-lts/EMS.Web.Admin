@@ -74,15 +74,74 @@ const headers = ref([
   },
 ])
 
+const items = ref ([
+  {
+    course: 'Fullstack .Net',
+    jan: 1,
+    feb: 1,
+    mar: 1,
+    apr: 1,
+    may: 1,
+    jun: 1,
+    jul: 1,
+    aug: 1,
+    sep: 1,
+    oct: 1,
+    nov: 1,
+    dec: 1,
+    notEnrolled: 12,
+  },
+  {
+    course: 'Fullstack Java',
+    jan: 1,
+    feb: 0,
+    mar: 1,
+    apr: 1,
+    may: 0,
+    jun: 1,
+    jul: 1,
+    aug: 4,
+    sep: 0,
+    oct: 0,
+    nov: 2,
+    dec: 1,
+    notEnrolled: 1,
+  },
+  {
+    course: 'C#/Java',
+    jan: 4,
+    feb: 4,
+    mar: 0,
+    apr: 0,
+    may: 0,
+    jun: 6,
+    jul: 1,
+    aug: 0,
+    sep: 0,
+    oct: 3,
+    nov: 0,
+    dec: 2,
+    notEnrolled: 5,
+  },
+  {
+    course: 'Tổng học viên của tháng',
+    notEnrolled: 'Tổng năm = '
+  }
+])
+
 </script>
 
 <template>
   <div>
     <VCard>
-        <VCardTitle>Thống kê năm</VCardTitle>
+        <VCardTitle
+          class="font-weight-black title text-center"
+        >
+          THỐNG KÊ HỌC VIÊN TRONG NĂM
+        </VCardTitle>
         <VDataTable
           :headers="headers"
-          :items="tableDataSource"
+          :items="items"
         >
         </VDataTable>
     </VCard>
@@ -90,7 +149,7 @@ const headers = ref([
 </template>
 
 <style lang="scss">
-.header {
-  font-size: 12px;
+.title {
+  color: red;
 }
 </style>
